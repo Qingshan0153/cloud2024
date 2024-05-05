@@ -3,19 +3,16 @@ package com.study.cloud;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * @author 李京霖
- * @version 2024/5/2 2:00 1.0
+ * @version 2024/5/3 0:05 1.0
  */
 
-
-@SpringBootApplication
-@MapperScan("com.study.cloud.mapper")
 @EnableDiscoveryClient
-public class PayMain8001 {
+@SpringBootApplication
+public class Main83 {
     public static void main(String[] args) {
-        SpringApplication.run(PayMain8001.class, args);
+        SpringApplication.run(Main83.class, args);
     }
 }

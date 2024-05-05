@@ -8,9 +8,12 @@ import com.study.cloud.service.PayService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author 李京霖
@@ -18,6 +21,7 @@ import java.util.List;
  */
 
 
+@Slf4j
 @RestController
 @RequestMapping("/pay")
 @Tag(name = "支付接口", description = "支付接口")
@@ -36,6 +40,7 @@ public class PayController {
     @DeleteMapping("/{id}")
     @Operation(summary = "删除支付信息", description = "删除支付信息")
     public ResultData<String> delete(@PathVariable("id") Integer id) {
+
         int delete = payService.delete(id);
         return ResultData.success(delete + "");
     }
@@ -52,6 +57,11 @@ public class PayController {
     @GetMapping("/{id}")
     @Operation(summary = "根据id查询支付信息", description = "根据id查询支付信息")
     public ResultData<Pay> getById(@PathVariable("id") Integer id) {
+        try {
+            TimeUnit.SECONDS.sleep(60);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Pay pay = payService.getById(id);
         return ResultData.success(pay);
     }
@@ -62,5 +72,16 @@ public class PayController {
     public ResultData<List<Pay>> getAll() {
         List<Pay> list = payService.getAll();
         return ResultData.success(list);
+    }
+
+
+    @Value("${server.port}")
+    private String port;
+
+    @GetMapping("/lb")
+    @Operation(summary = "负载均衡测试", description = "负载均衡测试")
+    public String loadBalance(@Value("${spring.application.name}") String info) {
+        log.info("info:" + info + "port:" + port);
+        return "info:" + info + "\tport:" + port;
     }
 }

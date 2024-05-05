@@ -1,0 +1,48 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: cloud-consumer-openfeign-order
+  ####Spring Cloud Alibaba Nacos
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.200.133:8848
+    openfeign:
+
+      # 开启 apache httpclient5
+      httpclient:
+        hc5:
+          enabled: true
+      client:
+        config:
+          # 全局默认配置
+          default:
+            # 连接超时时间
+            connect-timeout: 3000
+            # 读取超时时间
+            read-timeout: 3000
+
+      #          # 指定某个微服务配置(和默认全局配置只能留一个)
+      #          cloud-payment-service:
+      #            # 连接超时时间
+      #            connect-timeout: 5000
+      #            # 读取超时时间
+      #            read-timeout: 5000
+      compression:
+        request:
+          enabled: true
+          min-request-size: 2048 #最小触发压缩的大小
+          mime-types: text/xml,application/xml,application/json #触发压缩数据类型
+        response:
+          enabled: true
+
+# Feign日志以什么级别监控哪个接口
+logging:
+  level:
+    com:
+      study:
+        cloud:
+          api:
+            PayFeignApi: debug
